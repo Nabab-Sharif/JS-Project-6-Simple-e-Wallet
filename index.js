@@ -1,4 +1,5 @@
 
+
 document.querySelector('#ewallet-form').addEventListener('submit', function (e) {
   e.preventDefault();
 
@@ -8,7 +9,6 @@ document.querySelector('#ewallet-form').addEventListener('submit', function (e) 
 
 
   if (desc && value) {
-
     addItems(type, desc, value);
     resetForm();
   } else {
@@ -23,6 +23,8 @@ document.querySelector('#ewallet-form').addEventListener('submit', function (e) 
 
 function addItems(type, desc, value) {
 
+  const time = getFormattedTime();
+
   const newHtml = `
   
   <div class="item">
@@ -32,7 +34,7 @@ function addItems(type, desc, value) {
         <p>${desc}</p>
       </div>
       <div class="item-time">
-        <p>25 Feb, 06:45 PM</p>
+        <p>${time}</p>
       </div>
     </div>
 
@@ -56,3 +58,26 @@ function resetForm() {
   document.querySelector('.add__value').value = '';
 
 }
+
+
+
+
+
+function getFormattedTime() {
+  const now = new Date().toLocaleTimeString('en-us', {
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+
+  const date = now.split(',')[0].split(' ');
+  const time = now.split(',')[1];
+  const formattedTime = `${date[1]} ${date[0]} ${time}`;
+
+  return formattedTime;
+}
+
+
+
+
