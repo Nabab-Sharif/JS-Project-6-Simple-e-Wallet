@@ -52,8 +52,9 @@ function addItems(type, desc, value) {
   addItemsToLS(desc, time, type, value);
 
 
-  showTotalIncome()
-  showTotalExpense()
+  showTotalIncome();
+  showTotalExpense();
+  showTotalBalance();
 
 }
 //.............................End Submit Form Function......................................
@@ -104,13 +105,25 @@ function getFormattedTime() {
 
 function getItemsFromLS() {
   let items = localStorage.getItem('items');
+
+  /*
   if (items) {
     items = JSON.parse(items);
   } else {
     items = [];
   }
+
+  */
+
+  //ternary operator used
+  items = (items) ? JSON.parse(items) : []
+
+
+
   return items;
 }
+
+
 
 
 function addItemsToLS(desc, time, type, value) {
@@ -208,3 +221,42 @@ function showTotalExpense() {
 
 
 
+
+//.............................Start Calculate total amounts Function......................................
+
+
+showTotalBalance();
+
+function showTotalBalance() {
+  const items = getItemsFromLS();
+  let balance = 0;
+
+  for (let item of items) {
+    if (item.type === '+') {
+      balance += parseInt(item.value);
+    } else {
+      balance -= parseInt(item.value);
+    }
+  }
+
+  document.querySelector('.balance__amount p').innerText = balance;
+
+
+  //for background color change 
+  /*
+  if (balance >= 0) {
+    document.querySelector('header').className = 'green';
+  } else {
+    document.querySelector('header').className = 'red';
+  }
+ */
+
+  //ternary operator used
+  document.querySelector('header').className = balance >= 0 ? 'green' : 'red';
+
+
+}
+
+
+
+//.............................End Calculate total amounts Function......................................
