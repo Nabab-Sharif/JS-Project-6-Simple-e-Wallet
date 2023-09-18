@@ -1,4 +1,5 @@
 
+//.............................Start Submit Form Function......................................
 
 document.querySelector('#ewallet-form').addEventListener('submit', function (e) {
   e.preventDefault();
@@ -20,7 +21,7 @@ document.querySelector('#ewallet-form').addEventListener('submit', function (e) 
 
 
 
-
+// Add item in UI when it will submit form
 function addItems(type, desc, value) {
 
   const time = getFormattedTime();
@@ -47,11 +48,17 @@ function addItems(type, desc, value) {
   `
   const collection = document.querySelector('.collection');
   collection.insertAdjacentHTML('afterbegin', newHtml);
+
+  addItemsToLS(desc, time, type, value);
+
 }
+//.............................End Submit Form Function......................................
 
 
 
 
+
+//.............................Start Reset Form Function ......................................
 function resetForm() {
   document.querySelector('.add__type').value = '+';
   document.querySelector('.add__description').value = '';
@@ -59,9 +66,12 @@ function resetForm() {
 
 }
 
+//.............................End Reset Form Function ......................................
 
 
 
+
+//.............................Start Get Formatted Time Function ......................................
 
 function getFormattedTime() {
   const now = new Date().toLocaleTimeString('en-us', {
@@ -77,6 +87,79 @@ function getFormattedTime() {
 
   return formattedTime;
 }
+//.............................End Get Formatted Time ......................................
+
+
+
+
+
+
+//.............................Start Store data into LocalStorage......................................
+
+
+function getItemsFromLS() {
+  let items = localStorage.getItem('items');
+  if (items) {
+    items = JSON.parse(items);
+  } else {
+    items = [];
+  }
+  return items;
+}
+
+
+function addItemsToLS(desc, time, type, value) {
+  let items = getItemsFromLS();
+  items.push({ desc, time, type, value })
+
+  localStorage.setItem('items', JSON.stringify(items));
+
+}
+//.............................End Store data into LocalStorage......................................
+
+
+
+
+
+//.............................Start Show data from LocalStorage.....................................
+
+showItems();
+
+function showItems() {
+  let items = getItemsFromLS();
+  const collection = document.querySelector('.collection');
+
+  for (let item of items) {
+    const newHtml = `
+  
+  <div class="item">
+
+    <div class="item-description-time">
+      <div class="item-description">
+        <p>${item.desc}</p>
+      </div>
+      <div class="item-time">
+        <p>${item.time}</p>
+      </div>
+    </div>
+
+    <div class="item-amount ${item.type == '+' ? 'income-amount' : 'expense-amount'}">
+      <p>${item.type}$${item.value}</p>
+    </div>
+
+  </div>
+  
+  `
+    collection.insertAdjacentHTML('afterbegin', newHtml);
+  }
+
+}
+
+//.............................End Show data from LocalStorage......................................
+
+
+
+
 
 
 
