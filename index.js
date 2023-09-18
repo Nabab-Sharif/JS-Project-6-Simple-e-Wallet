@@ -51,6 +51,10 @@ function addItems(type, desc, value) {
 
   addItemsToLS(desc, time, type, value);
 
+
+  showTotalIncome()
+  showTotalExpense()
+
 }
 //.............................End Submit Form Function......................................
 
@@ -67,6 +71,7 @@ function resetForm() {
 }
 
 //.............................End Reset Form Function ......................................
+
 
 
 
@@ -160,6 +165,45 @@ function showItems() {
 
 
 
+
+//.............................Start Calculate total Incomes and Expenses Function......................................
+
+showTotalIncome();
+
+function showTotalIncome() {
+  let items = getItemsFromLS();
+  let totalIncome = 0;
+
+  for (let item of items) {
+    if (item.type === '+') {
+      totalIncome += parseInt(item.value);
+    }
+  }
+
+  document.querySelector('.income__amount p').innerText = `$${totalIncome}`;
+
+}
+
+
+
+
+showTotalExpense();
+
+function showTotalExpense() {
+  let items = getItemsFromLS();
+  let totalExpenses = 0;
+  for (let item of items) {
+    if (item.type === '-') {
+      totalExpenses += parseInt(item.value);
+    }
+  }
+
+
+  document.querySelector('.expense__amount p').innerText = `$${totalExpenses}`;
+
+}
+
+//.............................End Calculate total Incomes and Expenses Function......................................
 
 
 
